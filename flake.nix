@@ -1,5 +1,5 @@
 {
-  description = "A dev environment for Figura";
+  description = "A dev environment for nix";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
