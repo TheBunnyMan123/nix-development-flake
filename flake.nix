@@ -16,6 +16,8 @@
       devShell = pkgs.mkShell {
         packages = with pkgs; [
           bashInteractive
+          nixpkgs-fmt
+          nixd
           (vscode-with-extensions.override {
             vscode = vscodium;
             vscodeExtensions = with vscode-extensions; [
