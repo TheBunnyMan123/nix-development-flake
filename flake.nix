@@ -21,7 +21,6 @@
           (vscode-with-extensions.override {
             vscode = vscodium;
             vscodeExtensions = with vscode-extensions; [
-              bbenoist.nix
               jnoortheen.nix-ide
             ];
           })
