@@ -9,9 +9,7 @@
   outputs = { self, nixpkgs, flake-utils }: 
     flake-utils.lib.eachDefaultSystem (system:
     let
-      pkgs = import nixpkgs {
-        system = "${system}";
-      };
+      pkgs = import nixpkgs { inherit system; };
     in {
       devShell = pkgs.mkShell {
         packages = with pkgs; [
@@ -20,6 +18,7 @@
           nixd
           (vscode-with-extensions.override {
             vscode = vscodium;
+            
             vscodeExtensions = with vscode-extensions; [
               jnoortheen.nix-ide
             ];
@@ -27,6 +26,10 @@
         ];
 
         shellHook = ''
+          if [ ! -f .vscode/settings.json ]
+          then
+            echo '{"nix.serverPath":"nixd","nix.serverSettings":{"nixd":{"formatting":{"command":["nixpkgs-fmt"]},"options":{"nixos":{"expr":"(builtins.getFlake \"/absolute/path/to/flake\").nixosConfigurations.<name>.options"}}}},"nix.enableLanguageServer":true}' > .vscode/settings.json
+          fi
           exec codium --verbose .
         '';
       };
