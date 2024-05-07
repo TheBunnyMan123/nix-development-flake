@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
-  outputs = { self, nixpkgs, flake-utils }: 
+  outputs = { self, nixpkgs, flake-utils, nix-vscode-extensions }: 
     flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs { inherit system; };
@@ -18,9 +19,11 @@
           nixd
           (vscode-with-extensions.override {
             vscode = vscodium;
-            
-            vscodeExtensions = with vscode-extensions; [
-              jnoortheen.nix-ide
+
+            vscodeExtensions = with nix-vscode-extensions.extensions.${system}.vscode-marketplace; [
+              pkgs.vscode-extensions.jnoortheen.nix-ide
+              mhutchie.git-graph
+              aaron-bond.better-comments
             ];
           })
         ];
